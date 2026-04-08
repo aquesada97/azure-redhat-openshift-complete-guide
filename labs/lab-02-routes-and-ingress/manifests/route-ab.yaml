@@ -1,0 +1,25 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: my-app-ab
+  namespace: lab-02
+  labels:
+    app: my-app
+  annotations:
+    haproxy.router.openshift.io/balance: roundrobin
+    haproxy.router.openshift.io/timeout: 30s
+spec:
+  to:
+    kind: Service
+    name: my-app-v1
+    weight: 90
+  alternateBackends:
+    - kind: Service
+      name: my-app-v2
+      weight: 10
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None

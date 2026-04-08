@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-app
+  namespace: lab-06
+  labels:
+    app: nodejs-app
+  annotations:
+    image.openshift.io/triggers: |
+      [
+        {
+          "from": {
+            "kind": "ImageStreamTag",
+            "name": "nodejs-app:latest",
+            "namespace": "lab-06"
+          },
+          "fieldPath": "spec.template.spec.containers[?(@.name==\"nodejs-app\")].image",
+          "pause": "false"
+        }
+      ]
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodejs-app
+  template:
+    metadata:
+      labels:
+        app: nodejs-app
+    spec:
+      containers:
+        - name: nodejs-app
+          image: image-registry.openshift-image-registry.svc:5000/lab-06/nodejs-app:latest
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+            capabilities:
+              drop: [ALL]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodejs-app
+  namespace: lab-06
+  labels:
+    app: nodejs-app
+spec:
+  selector:
+    app: nodejs-app
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080

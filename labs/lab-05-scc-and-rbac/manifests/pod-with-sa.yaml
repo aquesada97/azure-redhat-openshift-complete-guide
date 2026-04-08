@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pod
+  namespace: lab-05
+  labels:
+    app: test-pod
+    lab: lab-05
+spec:
+  serviceAccountName: lab-sa
+  containers:
+    - name: nginx
+      image: nginx:1.25
+      ports:
+        - containerPort: 8080
+      resources:
+        requests:
+          cpu: "100m"
+          memory: "128Mi"
+        limits:
+          cpu: "200m"
+          memory: "256Mi"
+      securityContext:
+        allowPrivilegeEscalation: false
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+        capabilities:
+          drop:
+            - ALL
+  restartPolicy: Always

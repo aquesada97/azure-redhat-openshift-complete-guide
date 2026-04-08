@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: shared-files
+  namespace: lab-03
+  labels:
+    app: shared
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: azurefile-csi
+  resources:
+    requests:
+      storage: 5Gi

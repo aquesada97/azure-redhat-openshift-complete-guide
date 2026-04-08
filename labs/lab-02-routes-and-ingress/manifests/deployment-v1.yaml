@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app-v1
+  namespace: lab-02
+  labels:
+    app: my-app-v1
+    version: "v1"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-app-v1
+  template:
+    metadata:
+      labels:
+        app: my-app-v1
+        version: "v1"
+    spec:
+      containers:
+        - name: my-app
+          image: nginx:1.25
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "200m"
+              memory: "256Mi"
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+            capabilities:
+              drop: [ALL]

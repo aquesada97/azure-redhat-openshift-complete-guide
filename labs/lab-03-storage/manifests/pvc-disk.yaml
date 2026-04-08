@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-data
+  namespace: lab-03
+  labels:
+    app: postgres
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: managed-csi
+  resources:
+    requests:
+      storage: 10Gi

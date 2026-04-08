@@ -1,0 +1,11 @@
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshot
+metadata:
+  name: postgres-snap
+  namespace: lab-03
+  labels:
+    app: postgres
+spec:
+  volumeSnapshotClassName: csi-azure-disk-vsc
+  source:
+    persistentVolumeClaimName: postgres-data

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-app-v2
+  namespace: lab-02
+  labels:
+    app: my-app-v2
+spec:
+  selector:
+    app: my-app-v2
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080

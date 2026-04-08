@@ -1,0 +1,37 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: nodejs-app
+  namespace: lab-06
+  labels:
+    app: nodejs-app
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: nodejs-app:latest
+  source:
+    type: Git
+    git:
+      uri: https://github.com/openshift/nodejs-ex.git
+      ref: master
+    contextDir: /
+  strategy:
+    type: Source
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: nodejs:18-ubi8
+        namespace: openshift
+      env:
+        - name: NODE_ENV
+          value: production
+  triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChange: {}
+    - type: GitHub
+      github:
+        secret: lab06-webhook-secret
+  successfulBuildsHistoryLimit: 3
+  failedBuildsHistoryLimit: 2

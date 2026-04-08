@@ -1,0 +1,10 @@
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: nodejs-app
+  namespace: lab-06
+  labels:
+    app: nodejs-app
+spec:
+  lookupPolicy:
+    local: true
