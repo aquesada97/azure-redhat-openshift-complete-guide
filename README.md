@@ -65,3 +65,17 @@ Before starting, ensure you have:
 | Red Hat support | No | Joint MS+RH | No |
 | Azure AD integration | Native | via OAuth | Manual |
 | Upgrade management | MS-managed | Joint MS+RH | Self |
+
+
+---
+
+## 🔗 Related Training Guides
+
+This guide is part of a series of Azure container platform training resources:
+
+| Guide | Description |
+|-------|-------------|
+| 🐳 [Azure Container Registry (ACR)](https://github.com/aquesada97/azure-container-registry-complete-guide) | Build, store, and manage container images — integrates directly with ARO |
+| ☸️ [Azure Kubernetes Service (AKS)](https://github.com/aquesada97/kubernetes-on-azure-complete-guide) | Managed Kubernetes on Azure — simpler than ARO, great starting point |
+
+> **Recommended learning path:** ACR → AKS → ARO
